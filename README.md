@@ -1,94 +1,190 @@
-# ⏰ Voice Reminder Assistant (Murf AI Only — No Anthropic)
+⏰ Voice Reminder Assistant (Murf AI + Telegram Integration)
 
-## 📁 Project Structure
-```
-reminder-final/
-├── app.py           → Flask backend (rule-based parser + Murf TTS)
-├── index.html       → Frontend UI
-├── app.js           → Frontend JS (calls Flask backend)
-├── style.css        → Dark theme styles
-├── .env             → Your Murf API key
-└── requirements.txt → Python dependencies
-```
+🚀 Overview
+
+This project is a Voice-based Reminder Assistant that allows users to input reminders through a web interface.
+The system intelligently parses the reminder, generates a voice response using Murf AI, and sends real-time notifications via Telegram at the scheduled time.
 
 ---
 
-## 🚀 Setup & Run
+🎯 Key Features
 
-### 1. Install dependencies
-```bash
+- 🧠 Smart Reminder Parsing
+  
+  - Understands natural language inputs like:
+    - “Remind me to drink water at 5 PM”
+    - “Remind me in 10 minutes”
+
+- 🔊 Voice Output (Murf AI)
+  
+  - Converts reminder confirmation into speech
+  - Uses Murf AI Text-to-Speech API
+
+- 🔔 Real-Time Telegram Notifications
+  
+  - Sends reminders directly to your Telegram chat
+  - Works with exact scheduled timing
+
+- ⏱ Scheduler Integration
+  
+  - Uses background scheduler to trigger reminders
+  - Supports delay-based and time-based reminders
+
+- 🌐 Web Interface
+  
+  - Simple and interactive UI
+  - Displays parsed reminder + plays audio
+
+---
+
+🧩 System Architecture
+
+User Input → Flask Backend → Reminder Parsing →
+→ Murf AI (Voice Generation)
+→ Scheduler → Telegram Bot → Notification
+
+---
+
+🛠️ Tech Stack
+
+- Frontend: HTML, CSS, JavaScript
+- Backend: Flask (Python)
+- APIs:
+  - Murf AI (Text-to-Speech)
+  - Telegram Bot API
+- Scheduler: APScheduler
+
+---
+
+🔑 API Integrations
+
+1. Murf AI API
+
+- Used for generating voice output from reminder text
+- Endpoint:
+
+https://api.murf.ai/v1/speech/generate
+
+- Required Header:
+
+api-key: YOUR_MURF_API_KEY
+
+---
+
+2. Telegram Bot API
+
+- Used to send reminder notifications
+- Endpoint:
+
+https://api.telegram.org/bot<TOKEN>/sendMessage
+
+---
+
+⚙️ Setup Instructions
+
+1. Clone the Project
+
+git clone <your-repo-link>
+cd reminder-final
+
+---
+
+2. Install Dependencies
+
 pip install -r requirements.txt
-```
 
-### 2. Add your Murf API key in `.env`
-```
-MURF_API_KEY=your_murf_api_key_here
-```
+---
 
-### 3. Start Flask backend
-```bash
+3. Configure Environment Variables
+
+Create a ".env" file:
+
+MURF_API_KEY=your_murf_api_key
+TELEGRAM_BOT_TOKEN=your_bot_token
+TELEGRAM_CHAT_ID=your_chat_id
+
+---
+
+4. Run Backend
+
 python app.py
-```
-Backend runs at: `http://localhost:5000`
-
-### 4. Open the frontend
-Open `index.html` in your browser (or serve with Live Server).
 
 ---
 
-## 📡 API Endpoints
+5. Run Frontend
 
-| Method | Endpoint          | Description                        |
-|--------|-------------------|------------------------------------|
-| POST   | `/speak`          | ⭐ Parse reminder + generate audio  |
-| POST   | `/parse-reminder` | Parse only → JSON (no audio)       |
-| GET    | `/voices`         | List all Murf voice IDs            |
-| GET    | `/health`         | Health check                       |
+Open:
 
-### POST `/speak` — Example
-**Request:**
-```json
-{ "text": "Remind me to drink water at 5 PM every day", "voice_id": "en-US-natalie" }
-```
-**Response:**
-```json
-{
-  "success": true,
-  "reminder": {
-    "task": "drink water",
-    "time": "05:00 PM",
-    "date": null,
-    "recurrence": "daily",
-    "delay_minutes": null,
-    "original_text": "Remind me to drink water at 5 PM every day"
-  },
-  "audio": {
-    "spoken_text": "Reminder: drink water, at 05:00 PM, repeating daily.",
-    "audio_url": "https://...",
-    "duration_secs": 3.2,
-    "voice_id": "en-US-natalie"
-  }
-}
-```
+index.html
+
+(or use Live Server)
 
 ---
 
-## ✅ What Changed vs Old Project
-| Old | New |
-|-----|-----|
-| Used Anthropic Claude API (paid) | ❌ Removed — not needed |
-| Frontend called Anthropic directly (exposed key!) | ✅ Frontend calls Flask backend |
-| No audio playback in UI | ✅ Audio player with autoplay |
-| No voice selector | ✅ Voice dropdown added |
-| `anthropic` in requirements | ✅ Removed |
+🧪 Usage
+
+1. Enter a reminder in the input field
+2. Click “Parse & Speak”
+3. System will:
+   - Parse reminder
+   - Play voice response
+   - Schedule notification
+4. At the exact time → Telegram sends reminder 🔔
 
 ---
 
-## 🎙️ Available Voice IDs
-| Voice ID        | Description      |
-|-----------------|------------------|
-| en-US-natalie   | US Female        |
-| en-US-marcus    | US Male          |
-| en-UK-ruby      | UK Female        |
-| en-IN-isha      | Indian Female    |
-| en-IN-arjun     | Indian Male      |
+📡 API Endpoints
+
+Method| Endpoint| Description
+POST| "/speak"| Parse reminder + generate audio + schedule
+GET| "/health"| Check server status
+
+---
+
+💡 Example Input
+
+Remind me to drink water at 5 PM
+
+---
+
+📤 Example Output
+
+- Voice: “Reminder set for drink water”
+- Telegram:
+
+🔔 Reminder: drink water
+
+---
+
+⚠️ Limitations
+
+- Server must be running continuously
+- Reminders are not stored (no database yet)
+- Basic NLP (rule-based parsing)
+
+---
+
+🚀 Future Improvements
+
+- 📦 Add database (SQLite / Firebase)
+- 🔁 Recurring reminders
+- 🌍 Timezone handling
+- ☁️ Deploy backend (Render / AWS)
+- 🎤 Voice input (speech-to-text)
+
+---
+
+🧠 Project Highlights
+
+- Combines AI (TTS) + Real-time scheduling + Messaging systems
+- Demonstrates full-stack integration
+- Suitable for hackathons / academic projects
+
+
+---
+
+⭐ Conclusion
+
+This project showcases how modern applications can combine AI APIs + automation + messaging platforms to create intelligent and practical solutions for everyday use.
+
+---
