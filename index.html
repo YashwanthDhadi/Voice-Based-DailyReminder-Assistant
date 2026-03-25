@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voice Reminder Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">⏰</div>
+      <h1>Reminder Assistant</h1>
+      <p class="subtitle">Type your reminder — we'll parse it and read it aloud</p>
+    </header>
+
+    <div class="input-section">
+      <textarea id="userInput" placeholder='e.g. "Remind me to drink water at 5 PM every day"' rows="3"></textarea>
+
+      <div class="voice-row">
+        <label for="voiceSelect">🎙️ Voice:</label>
+        <select id="voiceSelect">
+          <option value="en-US-natalie">Natalie (US Female)</option>
+          <option value="en-US-marcus">Marcus (US Male)</option>
+          <option value="en-UK-ruby">Ruby (UK Female)</option>
+          <option value="en-IN-isha">Isha (Indian Female)</option>
+          <option value="en-IN-arjun">Arjun (Indian Male)</option>
+        </select>
+      </div>
+
+      <button id="processBtn" onclick="processReminder()">
+        <span>🔔 Parse &amp; Speak</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <span>Generating your reminder audio...</span>
+    </div>
+
+    <div id="result" class="result hidden">
+      <div class="result-header">
+        <span class="tag">✅ Reminder Ready</span>
+        <button class="copy-btn" onclick="copyJSON()">Copy JSON</button>
+      </div>
+
+      <!-- Audio Player -->
+      <div class="audio-player" id="audioPlayer">
+        <div class="spoken-text" id="spokenText"></div>
+        <audio id="audioEl" controls></audio>
+      </div>
+
+      <div class="cards" id="cards"></div>
+
+      <div class="json-block">
+        <pre id="jsonOutput"></pre>
+      </div>
+    </div>
+
+    <div id="error" class="error hidden">
+      <span id="errorMsg">⚠️ Something went wrong. Please try again.</span>
+    </div>
+
+    <div class="examples">
+      <p class="examples-title">Try these examples:</p>
+      <div class="example-chips">
+        <button onclick="fillExample('Remind me to drink water at 5 PM')">💧 Drink water at 5 PM</button>
+        <button onclick="fillExample('Remind me to take medicine every day at 9 PM')">💊 Medicine daily 9 PM</button>
+        <button onclick="fillExample('Remind me to call mom tomorrow at 8 PM')">📞 Call mom tomorrow</button>
+        <button onclick="fillExample('Remind me to stand up in 15 minutes')">🧍 Stand up in 15 mins</button>
+        <button onclick="fillExample('Remind me to go for a walk every Monday morning')">🚶 Walk every Monday</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
