@@ -93,3 +93,44 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) processReminder();
   });
 });
+// 🎤 Voice Input Feature
+document.addEventListener("DOMContentLoaded", () => {
+  const micBtn = document.getElementById("micBtn");
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    micBtn.textContent = "❌ Voice not supported";
+    micBtn.disabled = true;
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+
+  micBtn.addEventListener("click", () => {
+    micBtn.textContent = "🎙 Listening...";
+    recognition.start();
+  });
+
+  recognition.onresult = function (event) {
+    const transcript = event.results[0][0].transcript;
+
+    // Put text into input box
+    document.getElementById("userInput").value = transcript;
+
+    micBtn.textContent = "🎤 Speak";
+
+    // Auto process
+    processReminder();
+  };
+
+  recognition.onerror = function () {
+    micBtn.textContent = "🎤 Speak";
+    alert("Voice recognition error. Try again.");
+  };
+
+  recognition.onend = function () {
+    micBtn.textContent = "🎤 Speak";
+  };
+});
