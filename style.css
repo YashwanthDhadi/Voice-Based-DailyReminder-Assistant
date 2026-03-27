@@ -269,3 +269,20 @@ pre {
 }
 
 .hidden { display: none !important; }
+
+.mic-btn {
+  margin-top: 10px;
+  width: 100%;
+  background: #2a2d45;
+  color: #a78bfa;
+  border: 1px solid #3b3f63;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mic-btn:hover {
+  background: #353966;
+}
